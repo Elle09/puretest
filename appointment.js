@@ -1,65 +1,57 @@
-var form = document.getElementById('addForm');
-var itemList = document.getElementById('items');
-var container = document.getElementById('main-header');
-// Form submit event
-form.addEventListener('submit', addItem);
-// Delete event
-itemList.addEventListener('click', removeItem);
+const nameInput = document.querySelector('#name');
+nameInput.addEventListener('input', e => {
+  document.querySelector('.container').append(nameInput.value);
+});
 
 
+// USER FORM SCRIPT
 
-// Add item
-function addItem(e){
+// Put DOM elements into variables
+const myForm = document.querySelector('#my-form');
+const emailInput = document.querySelector('#email');
+const msg = document.querySelector('.msg');
+const userList = document.querySelector('#users');
+
+// Listen for form submit
+myForm.addEventListener('submit', onSubmit);
+
+function onSubmit(e) {
   e.preventDefault();
+  
+  if(nameInput.value === '' || emailInput.value === '') {
+    // alert('Please enter all fields');
+    msg.classList.add('error');
+    msg.innerHTML = 'Please enter all fields';
 
-  // Get input value
-  var newItem = document.getElementById('item').value;
+    // Remove error after 3 seconds
+    setTimeout(() => msg.remove(), 3000);
+  } else {
+    // Create new list item with user
+    const li = document.createElement('li');
 
-  // Create new li element
-  var li = document.createElement('li');
-  // Add class
-  li.className = 'list-group-item';
-  // Add text node with input value
-  li.appendChild(document.createTextNode(newItem));
+    // Add text node with input values
+    li.appendChild(document.createTextNode(`${nameInput.value}: ${emailInput.value}`));
 
-  // Create del button element
-  var deleteBtn = document.createElement('button');
-  var editBtn = document.createElement('button');
+    // Add HTML
+    // li.innerHTML = `<strong>${nameInput.value}</strong>e: ${emailInput.value}`;
 
-  // Add classes to del button
-  deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
-  editBtn.className = 'btn  btn-sm float-right edit';
+    // Append to ul
+    userList.appendChild(li);
 
-  // Append text node
-  deleteBtn.appendChild(document.createTextNode('X'));
-  editBtn.appendChild(document.createTextNode('Y'));
-
-  // Append button to li
-  li.appendChild(deleteBtn);
-  li.appendChild(editBtn);
-
-  // Append li to list
-  itemList.appendChild(li);
-}
-
-// Remove item
-function removeItem(e){
-  if(e.target.classList.contains('delete')){
-    if(confirm('Are You Sure?')){
-      var li = e.target.parentElement;
-      itemList.removeChild(li);
-    }
+    // Clear fields
+    nameInput.value = '';
+    emailInput.value = '';
   }
+
+  localStorage.setItem("name", `${nameInput.value}`);
+  localStorage.setItem("email",`${emailInput.value}`);
 }
+let myOj={
+    name:`${nameInput.value}`,
+    email:`${emailInput.value}`
+}
+let myOj_s = JSON.stringify(myOj);
+localStorage.setItem("userdetails",myOj_s);
+let myOj_d = JSON.parse(localStorage.getItem(myOj_s));
 
-  const li = document.createElement('li');
-
-  // Add text node with input values
-  li.appendChild(document.createTextNode(`${newItem.value}`));
-
-  
-  container.appendChild(li);
-
-  // Clear fields
-  newItem.value = '';
-  
+console.log(myOj_d);
