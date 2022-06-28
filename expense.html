@@ -85,6 +85,8 @@
             function addLI(e){
                 e.preventDefault();
                 let text =inputText.value;
+                var type1= document.getElementById('type1').value;
+                var type2 = document.getElementById('type2').value;
                 let result = text.concat(" ", type1, " ", type2);
                 var listNode = document.getElementById("list"),
                     textNode = document.createTextNode(result),
@@ -107,10 +109,8 @@
  
                 listNode.appendChild(deleteBtn);
                 listNode.appendChild(editBtn);
-                var first = document.querySelectorAll('.liNode:nth-child(2)');
-                var second = document.querySelectorAll('.liNode:nth-child(3)');
-                first.onclick=deleteLI();
-                second.onclick=editLI();        
+                liNode.firstElementChild.onclick=deleteLI();
+                liNode.lastElementChild.onclick=editLI();       
             }
              
              function editLI(){
