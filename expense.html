@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Javascript: add edit delete LI</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style>
+            li{cursor: pointer}
+        </style>
+        
+    </head>
+    <body>
+       
+        <div class="form">
+            <form id="expForm">
+                <div class="formLine left">
+                    <span for="name">Choose amountexpense</span>
+                    <input type="text" id="amount">
+                    <span for="type">choose decription</span> 
+                    <select id="type1">
+                        <option value=" "></option>
+                        <option value="Movie">Movie</option>
+                        <option value="Vacation">Vacation</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Dining">Dining</option>
+                    </select>
+                    <span for="amount">Category</span>
+                    <select id="type2">
+                        <option value=" "></option>
+                        <option value="Movie">Movie</option>
+                        <option value="fuel">Fuel</option>
+                        <option value="Food">Food</option>
+                        <option value="Apparal">Apparel</option>
+                    </select>
+                
+                </div>
+                <button type="submit" class="buttonSave"  onclick="addLI()">Add a new expense</button>
+            </form>
+        </div>
+        <ul id="list">
+            
+        </ul>
+        
+        <script>
+            document.getElementById('expForm').addEventListener('submit', addLI);
+            
+            var inputText = document.getElementById("amount"),
+                 items = document.querySelectorAll("#list li"),
+                 tab = [], index;
+            var type1= document.getElementById('type1').value;
+            var type2 = document.getElementById('type2').value;     
+         
+             // get the selected li index using array
+             // populate array with li values
+             
+             for(var i = 0; i < items.length; i++){
+                 tab.push(items[i].innerHTML);
+             }
+             
+             // get li index onclick
+             for(var i = 0; i < items.length; i++){
+                 
+                 items[i].onclick = function(){
+                     index = tab.indexOf(this.innerHTML);
+                     console.log(this.innerHTML + " INDEX = " + index);
+                     // set the selected li value into input text
+                     inputText.value = this.innerHTML;
+                 };
+                 
+             }
+             
+             function refreshArray()
+            {   
+                
+                // clear array
+                tab.length = 0;
+                items = document.querySelectorAll("#list li");
+                // fill array
+                for(var i = 0; i < items.length; i++){
+                 tab.push(items[i].innerHTML);
+               }
+            }
+            
+            function addLI(e){
+                e.preventDefault();
+                let text =inputText.value;
+                let result = text.concat(" ", type1, " ", type2);
+                var listNode = document.getElementById("list"),
+                    textNode = document.createTextNode(result),
+                    liNode = document.createElement("LI");
+                    
+                    liNode.appendChild(textNode);
+                    listNode.appendChild(liNode);
+                 // Create del button element
+                var deleteBtn = document.createElement('button');
+                var editBtn = document.createElement('button');
+
+  
+                deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
+                editBtn.className = 'btn  btn-sm float-right edit';
+
+  
+                deleteBtn.appendChild(document.createTextNode('delete'));
+                editBtn.appendChild(document.createTextNode('edit'));
+
+ 
+                listNode.appendChild(deleteBtn);
+                listNode.appendChild(editBtn);
+                var first = document.querySelectorAll('.liNode:nth-child(2)');
+                var second = document.querySelectorAll('.liNode:nth-child(3)');
+                first.onclick=deleteLI();
+                second.onclick=editLI();        
+            }
+             
+             function editLI(){
+                
+                 // edit the selected li using input text
+                 items[index].innerHTML = inputText.value;
+                 refreshArray();
+              }
+                 
+              
+              
+              function deleteLI(){
+                   
+                    refreshArray();
+                      if(items.length > 0){
+                          items[index].parentNode.removeChild(items[index]);
+                          inputText.value = "";
+                      }
+                   
+    
+                }
+                     
+            
+        </script>
+        
+    </body>
+</html>
