@@ -62,15 +62,22 @@ for (let i = 0; i < localStorage.length; i++) {
   console.log(`${key}: ${localStorage.getItem(key)}`);
 }
 document.addEventListener('DOMContentLoaded', () => {
+  axios.get("https://crudcrud.com/api/49308973c7774039b52702d4d75beda5/Employeedata").then((response)=>{
+    console.log(response)
+    for(var i=0; i<response.data.length; i++){
+      console.log(response.data[i])
+    }
+  })
+  .catch((err)=>{console.log(err)})
   let btn = document.getElementById('btn');
   btn.addEventListener('click', () => {
       // handle the click event
-      console.log('loaded');
+     console.log('loaded');
   });
 });
-a=JSON.parse((localStorage.getItem("usersdetails")));
+//a=JSON.parse((localStorage.getItem("usersdetails")));
 
-for(var i=0; i<a.length; i++)
-  {
-   console.log(a[i]['name'],a[i]['email']);
-  }
+//for(var i=0; i<a.length; i++)
+//  {
+//   console.log(a[i]['name'],a[i]['email']);
+//  }
