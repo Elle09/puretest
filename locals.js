@@ -1,3 +1,4 @@
+
 const nameInput = document.querySelector('#name');
 nameInput.addEventListener('input', e => {
   document.querySelector('.container').append(nameInput.value);
@@ -46,9 +47,11 @@ function onSubmit(e) {
     name:`${nameInput.value}`,
     email:`${emailInput.value}`
 }
-let myOj_s = JSON.stringify(myOj);
-localStorage.setItem("userdetails",myOj_s);
-
+//let myOj_s = JSON.stringify(myOj);
+//localStorage.setItem("userdetails",myOj_s);
+axios.post("https://crudcrud.com/api/49308973c7774039b52702d4d75beda5/Employeedata",myOj).then((response)=>{
+  console.log(response)
+}).catch((err)=>{console.log(err)})
   
 }
 
