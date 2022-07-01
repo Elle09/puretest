@@ -1,18 +1,17 @@
 var form = document.getElementById('addForm');
+
 var itemList = document.getElementById('items');
+var newItem = document.getElementById('item').value;
+tab = [], index;
 // Form submit event
 form.addEventListener('submit', addItem);
 // Delete event
 itemList.addEventListener('click', removeItem);
-
-
-
+itemList.addEventListener('click', edititem);
 // Add item
 function addItem(e){
   e.preventDefault();
 
-  // Get input value
-  var newItem = document.getElementById('item').value;
 
   // Create new li element
   var li = document.createElement('li');
@@ -31,7 +30,7 @@ function addItem(e){
 
   // Append text node
   deleteBtn.appendChild(document.createTextNode('X'));
-  editBtn.appendChild(document.createTextNode('Y'));
+  editBtn.appendChild(document.createTextNode('edit'));
 
   // Append button to li
   li.appendChild(deleteBtn);
@@ -42,13 +41,39 @@ function addItem(e){
 }
 
 // Remove item
-function removeItem(e){
-  if(e.target.classList.contains('delete')){
-    if(confirm('Are You Sure?')){
-      var li = e.target.parentElement;
-      itemList.removeChild(li);
-    }
+function removeItem(id){
+  axios.delete(`https://crudcrud.com/api/49308973c7774039b52702d4d75beda5/Employeedata/${id}`)
+  .then((response)=>{ deleteli(id)
+
+  })
+  .catch((err)=>{console.log(err)
+  })
+
+ 
+}
+function deleteli(id){
+  const cldnode =document.getElementById(id);
+  if(cldnode){
+    itemList.removeChild(cldnode);
   }
+}
+
+function edititem(e){
+  e.preventDefault();
+  for(var i = 0; i < itemList.length; i++){
+                 
+    itemList[i].onclick = function(){
+        index = tab.indexOf(this.innerHTML);
+        console.log(this.innerHTML + " INDEX = " + index);
+        // set the selected li value into input text
+        newItem.value = this.innerHTML;
+    };
+    
+}
+  
+  // edit the selected li using input text
+  itemList[index].innerHTML = newItem.value;
+  
 }
 
    
