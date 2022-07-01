@@ -57,12 +57,19 @@ function deleteli(id){
     itemList.removeChild(cldnode);
   }
 }
+function updateItem(id){
+  axios.put(`https://crudcrud.com/api/49308973c7774039b52702d4d75beda5/Employeedata/${id}`)
+  .then((response)=>{ editli(id)
 
-function edititem(e){
-  e.preventDefault();
-  for(var i = 0; i < itemList.length; i++){
+  })
+  .catch((err)=>{console.log(err)
+  })
+}
+function editli(id){
+  const cldnode =document.getElementById(id);
+  for(var i = 0; i < cldnode.length; i++){
                  
-    itemList[i].onclick = function(){
+    cldnode[i].onclick = function(){
         index = tab.indexOf(this.innerHTML);
         console.log(this.innerHTML + " INDEX = " + index);
         // set the selected li value into input text
