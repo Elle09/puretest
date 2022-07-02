@@ -45,31 +45,29 @@
         <script>
             document.getElementById('expForm').addEventListener('submit', addLI);
             
+           
             var inputText = document.getElementById("amount"),
                  items = document.querySelectorAll("#list li"),
                  tab = [], index;
-            var type1= document.getElementById('type1').value;
-            var type2 = document.getElementById('type2').value;     
+            var text1 =inputText.value;   
+            var text2= document.getElementById('type1').value;
+            var text3 = document.getElementById('type2').value;   
+            var result = text1.concat(" ", text2, " ", text3);              
          
-             // get the selected li index using array
-             // populate array with li values
+             
              
              for(var i = 0; i < items.length; i++){
                  tab.push(items[i].innerHTML);
              }
              
-             // get li index onclick
-             for(var i = 0; i < items.length; i++){
+             function getindex(){
+                for(var i = 0; i < items.length; i++){
                  
-                 items[i].onclick = function(){
-                     index = tab.indexOf(this.innerHTML);
-                     console.log(this.innerHTML + " INDEX = " + index);
-                     // set the selected li value into input text
-                     inputText.value = this.innerHTML;
-                 };
                  
+                    var index = tab.indexOf(this.innerHTML);            
+                }
              }
-             
+            
              function refreshArray()
             {   
                 
@@ -84,10 +82,11 @@
             
             function addLI(e){
                 e.preventDefault();
-                let text =inputText.value;
-                var type1= document.getElementById('type1').value;
-                var type2 = document.getElementById('type2').value;
-                let result = text.concat(" ", type1, " ", type2);
+
+                var text1 =inputText.value;   
+                var text2= document.getElementById('type1').value;
+                var text3 = document.getElementById('type2').value;  
+                let result = text1.concat(" ", text2, " ", text3);              
                 var listNode = document.getElementById("list"),
                     textNode = document.createTextNode(result),
                     liNode = document.createElement("LI");
@@ -109,31 +108,47 @@
  
                 listNode.appendChild(deleteBtn);
                 listNode.appendChild(editBtn);
-                liNode.firstElementChild.onclick=deleteLI();
-                liNode.lastElementChild.onclick=editLI();       
+                let id = items[i].id;
+                deleteBtn.onclick=removeItem(id);
+                editBtn.onclick=editItem(id);
+                        
             }
-             
-             function editLI(){
-                
-                 // edit the selected li using input text
-                 items[index].innerHTML = inputText.value;
-                 refreshArray();
-              }
-                 
-              
-              
-              function deleteLI(){
-                   
-                    refreshArray();
+            function removeItem(id){
+                axios.delete(`https://crudcrud.com/api/49308973c7774039b52702d4d75beda5/Employeedata/${id}`)
+                    .then((response)=>{ deleteLI()
+
+                    })
+                    .catch((err)=>{console.log(err)
+                     })
+                }     
+            function editItem(id){
+                         axios.put(`https://crudcrud.com/api/49308973c7774039b52702d4d75beda5/Employeedata/${id}`)
+                         .then((response)=>{ editLI()
+
+                        })
+                        .catch((err)=>{console.log(err)
+                        })
+                    }    
+
+
+
+
+
+
+            const deleteLI = () => {
+                refreshArray();
                       if(items.length > 0){
                           items[index].parentNode.removeChild(items[index]);
                           inputText.value = "";
-                      }
-                   
-    
-                }
-                     
-            
+                      }    
+                
+            }    
+            function editLI(){
+                
+                 items[index].innerHTML = inputText.value;
+                 refreshArray();
+            }
+              
         </script>
         
     </body>
