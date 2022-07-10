@@ -1,34 +1,27 @@
 const http = require('http');
-const fs = require('fs');
+
 
 const server = http.createServer((req, res) => {
   const url = req.url;
   const method = req.method;
-  if (url === '/') {
-    res.write('<html>');
-    res.write('<head><title>Node js Project</title><head>');
-    res.write('<body><form  method="POST"><button onclick="/home" type="submit"> Welcome home</button><button onclick="/about" type="submit"> About Us </button><button onclick="/node" type="submit"> Node js page</button></form></body>');
-    res.write('</html>');
-    return res.end();
-  }
-  if (url === '/home' && method === 'POST') {
-    fs.writeFileSync('message.txt', ' Welcome home');
+ 
+  if (url === '/home' ) {
+    res.write('<head><title>Welcome home</title><head>');
     res.statusCode = 302;
-    res.setHeader('Location', '/');
+    res.setHeader('Location', '/home');
   
     return res.end();
   }
-  if (url === '/about' && method === 'POST') {
-    fs.writeFileSync('message.txt', ' Welcome About us page');
+  if (url === '/about') {
+    res.write('<head><title>Welcome About us page</title><head>');
     res.statusCode = 302;
-    res.setHeader('Location', '/');
+    res.setHeader('Location', '/about');
   
     return res.end();
   }
-  if (url === '/node' && method === 'POST') {
-    fs.writeFileSync('message.txt', ' Welcome to Node js page');
-    res.statusCode = 302;
-    res.setHeader('Location', '/');
+  if (url === '/node') {
+    res.write('<head><title>Welcome to Node js Pge</title><head>');
+    res.setHeader('Location', '/node');
   
     return res.end();
   }
