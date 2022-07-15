@@ -29,17 +29,13 @@ exports.addContact = (req, res, next) => {
   res.render('contactus', {
     pageTitle: 'Contact Us',
     path: '/contactus',
-    formsCSS: true,
-    productCSS: true,
-    activeAddProduct: true
+   
   });
 };
 exports.Success = (req, res, next) => {
   res.render('success', {
     pageTitle: 'Success',
     path: '/success',
-    formsCSS: true,
-    productCSS: true,
-    activeAddProduct: true
+    
   });
 };
