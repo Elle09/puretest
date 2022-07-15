@@ -1,37 +1,21 @@
-const http = require('http');
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
 
 
-const server = http.createServer((req, res) => {
-  const url = req.url;
-  const method = req.method;
- 
-  if (url === '/home' ) {
-    res.write('<head><title>Welcome home</title><head>');
-    res.statusCode = 302;
-    res.setHeader('Location', '/home');
-  
-    return res.end();
-  }
-  if (url === '/about') {
-    res.write('<head><title>Welcome About us page</title><head>');
-    res.statusCode = 302;
-    res.setHeader('Location', '/about');
-  
-    return res.end();
-  }
-  if (url === '/node') {
-    res.write('<head><title>Welcome to Node js Pge</title><head>');
-    res.setHeader('Location', '/node');
-  
-    return res.end();
-  }
+const app = express();
 
-  res.setHeader('Content-Type', 'text/html');
-  res.write('<html>');
-  res.write('<head><title>My First Page</title><head>');
-  res.write('<body><h1>Hello from my Node.js Server!</h1></body>');
-  res.write('</html>');
-  res.end();
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
+const contactus = require('./routes/contactus')
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/admin', adminRoutes);
+app.use(shopRoutes);
+app.use(contactus);
+app.use((req, res, next) => {
+    res.sendFile(path.join(__dirname, 'views', '404.html'));
 });
 
-server.listen(3000);
+app.listen(8000);
